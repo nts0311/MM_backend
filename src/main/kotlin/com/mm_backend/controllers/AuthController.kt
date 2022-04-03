@@ -10,8 +10,11 @@ import com.mm_backend.services.UserService
 import com.mm_backend.utils.*
 import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.web.bind.annotation.*
 
@@ -26,14 +29,15 @@ class AuthController @Autowired constructor(
 
     @PostMapping("login")
     fun login(@RequestBody authRequest: AuthRequest): ResponseEntity<*> {
-        val authToken = UsernamePasswordAuthenticationToken(authRequest.username, authRequest.password,)
-        return if(authenticationManager.authenticate(authToken).isAuthenticated) {
+        return try {
+            val authToken = UsernamePasswordAuthenticationToken(authRequest.username, authRequest.password)
+            authenticationManager.authenticate(authToken)
             val user = userService.getUserByUsername(authRequest.username)
             val jwtToken = jwtUtils.generateToken(user!!)
             ok(AuthenticationResponse(jwtToken))
         }
-        else {
-            badRequest(MSG_INCORRECT_AUTH_INFO)
+        catch (e: BadCredentialsException){
+            unauthorized()
         }
     }
 
@@ -46,10 +50,5 @@ class AuthController @Autowired constructor(
         userService.saveUser(newUser)
 
         return ok()
-    }
-
-    @GetMapping("test")
-    fun test(): ResponseEntity<*> {
-        throw Exception("bhvbyjklvuyiov;vbil;vjvlh")
     }
 }

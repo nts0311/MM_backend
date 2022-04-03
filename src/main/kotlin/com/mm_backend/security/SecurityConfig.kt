@@ -1,6 +1,7 @@
 package com.mm_backend.security
 
 import com.mm_backend.filter.ExceptionFilter
+import com.mm_backend.filter.JwtTokenFilter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -35,6 +36,7 @@ class SecurityConfig(): WebSecurityConfigurerAdapter() {
             authorizeRequests().antMatchers("/auth/login/**").permitAll()
             authorizeRequests().antMatchers("/auth/register/**").permitAll()
             addFilterBefore(ExceptionFilter(), UsernamePasswordAuthenticationFilter::class.java)
+            addFilterBefore(JwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
         }
     }
 

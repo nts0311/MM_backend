@@ -10,7 +10,6 @@ import java.util.*
 
 @Service
 class JwtUtils {
-    private val SECRET = "AbCd123"
     private val EXPRIRE_TIME = 60
 
     fun generateToken(user: AppUser): String {
@@ -18,5 +17,9 @@ class JwtUtils {
             .withSubject(user.username)
             .withExpiresAt(Date(System.currentTimeMillis() + EXPRIRE_TIME * 60 * 1000))
             .sign(Algorithm.HMAC256(SECRET))
+    }
+
+    companion object {
+        val SECRET = "AbCd123"
     }
 }
