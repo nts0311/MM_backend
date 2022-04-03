@@ -33,6 +33,8 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    implementation("com.auth0:java-jwt:3.19.0")
+    implementation("org.modelmapper:modelmapper:3.0.0")
 }
 
 tasks.withType<KotlinCompile> {
