@@ -2,7 +2,11 @@ package com.mm_backend.filter
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.exceptions.JWTVerificationException
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.mm_backend.constants.MSG_INCORRECT_AUTH_INFO
+import com.mm_backend.constants.MSG_INVALID_TOKEN
+import com.mm_backend.dto.response.BaseResponse
 import com.mm_backend.utils.JwtUtils
 import com.mm_backend.utils.unauthorized
 import org.springframework.http.HttpHeaders
@@ -34,21 +38,24 @@ class JwtTokenFilter: OncePerRequestFilter() {
 
         val authHeader = request.getHeader(HttpHeaders.AUTHORIZATION)
         if(authHeader != null && authHeader.startsWith("Bearer ")) {
-            runCatching {
+            try {
                 val jwtToken = authHeader.substring("Bearer ".length)
                 val verifier = JWT.require(Algorithm.HMAC256(JwtUtils.SECRET.toByteArray())).build()
                 val decodedJwt = verifier.verify(jwtToken)
                 val username = decodedJwt.subject
+                val userId = decodedJwt.claims["userId"]?.asLong() ?: 0
                 val authorities = listOf(SimpleGrantedAuthority("USER"))
                 val authToken = UsernamePasswordAuthenticationToken(username, null, authorities)
+                authToken.details = userId
                 SecurityContextHolder.getContext().authentication = authToken
                 filterChain.doFilter(request, response)
             }
-                .onFailure {
-                    response.status = HttpStatus.FORBIDDEN.value()
-                    response.contentType = MediaType.APPLICATION_JSON_VALUE
-                    ObjectMapper().writeValue(response.outputStream, unauthorized())
-                }
+            catch (e: JWTVerificationException) {
+                e.printStackTrace()
+                response.status = HttpStatus.UNAUTHORIZED.value()
+                response.contentType = MediaType.APPLICATION_JSON_VALUE
+                ObjectMapper().writeValue(response.outputStream, BaseResponse(code = -1, msg = MSG_INVALID_TOKEN))
+            }
         }
         else {
             filterChain.doFilter(request, response)

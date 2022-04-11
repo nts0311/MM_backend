@@ -26,6 +26,7 @@ class UserService: UserDetailsService {
     }
 
     fun isUserExist(username: String): Boolean = getUserByUsername(username) != null
+    fun isUserExist(userId: Long): Boolean = !userRepo.findById(userId).isEmpty
 
     override fun loadUserByUsername(username: String?): UserDetails {
         if(username != null){

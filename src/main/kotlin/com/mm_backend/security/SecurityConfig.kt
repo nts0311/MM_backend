@@ -35,6 +35,7 @@ class SecurityConfig(): WebSecurityConfigurerAdapter() {
             sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             authorizeRequests().antMatchers("/auth/login/**").permitAll()
             authorizeRequests().antMatchers("/auth/register/**").permitAll()
+            authorizeRequests().anyRequest().authenticated()
             addFilterBefore(ExceptionFilter(), UsernamePasswordAuthenticationFilter::class.java)
             addFilterBefore(JwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
         }

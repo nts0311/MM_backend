@@ -25,8 +25,6 @@ class AuthController @Autowired constructor(
     val userService: UserService,
     val jwtUtils: JwtUtils
 ) : BaseController() {
-    val modelMapper = ModelMapper()
-
     @PostMapping("login")
     fun login(@RequestBody authRequest: AuthRequest): ResponseEntity<*> {
         return try {
