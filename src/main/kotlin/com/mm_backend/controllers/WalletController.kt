@@ -25,11 +25,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/wallet")
-class WalletController @Autowired constructor(
-    val jwtUtils: JwtUtils,
-    val walletService: WalletService,
-    val userService: UserService
-): BaseController() {
+class WalletController: BaseController() {
     @PostMapping("create")
     fun createWallet(@RequestBody createWalletRequest: CreateWalletRequest): ResponseEntity<*> {
         if (!userService.isUserExist(createWalletRequest.userId))
@@ -74,9 +70,5 @@ class WalletController @Autowired constructor(
             return badRequest(MSG_USER_NOT_EXIST)
 
         return ok(walletService.getWalletListOfUser(userId))
-    }
-
-    private fun userOwnWallet(walletId: Long): Boolean {
-        return walletService.walletOwnedByUser(walletId, username)
     }
 }

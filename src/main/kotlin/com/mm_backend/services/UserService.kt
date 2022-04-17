@@ -18,6 +18,14 @@ class UserService: UserDetailsService {
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
 
+    override fun loadUserByUsername(username: String?): UserDetails {
+        if(username != null){
+            val user = getUserByUsername(username) ?: throw UsernameNotFoundException("Username not found")
+            return User(user.username,user.password, listOf(SimpleGrantedAuthority("USER")))
+        }
+        throw UsernameNotFoundException("username null")
+    }
+
     fun getUserByUsername(username: String): AppUser? = userRepo.findByUsername(username)
 
     fun saveUser(user: AppUser) {
@@ -28,11 +36,7 @@ class UserService: UserDetailsService {
     fun isUserExist(username: String): Boolean = getUserByUsername(username) != null
     fun isUserExist(userId: Long): Boolean = !userRepo.findById(userId).isEmpty
 
-    override fun loadUserByUsername(username: String?): UserDetails {
-        if(username != null){
-            val user = getUserByUsername(username) ?: throw UsernameNotFoundException("Username not found")
-            return User(user.username,user.password, listOf(SimpleGrantedAuthority("USER")))
-        }
-        throw UsernameNotFoundException("username null")
+    fun flush() {
+        userRepo.flush()
     }
 }

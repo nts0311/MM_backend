@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/auth")
 class AuthController @Autowired constructor(
     val authenticationManager: AuthenticationManager,
-    val userService: UserService,
     val jwtUtils: JwtUtils
 ) : BaseController() {
     @PostMapping("login")
@@ -46,6 +45,8 @@ class AuthController @Autowired constructor(
 
         val newUser = modelMapper.map(registerRequest, AppUser::class.java)
         userService.saveUser(newUser)
+        userService.flush()
+        categoryService.insertDefaultCategoriesForUser(newUser)
 
         return ok()
     }

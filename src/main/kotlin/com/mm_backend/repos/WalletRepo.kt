@@ -10,7 +10,11 @@ interface WalletRepo: JpaRepository<Wallet, Long> {
     fun findByUserId(userId: Long): List<Wallet>
 
     @Query(
-        value = "SELECT COUNT(*) FROM wallet w, app_user u WHERE w.id = :walletId AND u.username = :username",
+        value = """
+            SELECT COUNT(*) FROM wallet w
+            INNER JOIN app_user u on u.id = w.user_id
+            WHERE w.id = :walletId AND u.username = :username
+        """,
         nativeQuery = true
     )
     fun walletBelongToUser(walletId: Long, username: String): Int
