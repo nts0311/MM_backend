@@ -18,7 +18,7 @@ class Wallet(
     var id:Long = 0,
     var name:String = "",
     var imageUrl: String = "",
-    var amount: Long = 0L,
+    var amount: Double = 0.0,
     var currency: String = "",
 
     @JsonIgnore

@@ -16,6 +16,8 @@ class TransactionCategoryService @Autowired constructor(
 
     fun getCategoriesForUser(userId: Long) = categoryRepo.findAllByUserId(userId)
 
+    fun isCategoryExist(id: Long) = categoryRepo.existsById(id)
+
     fun insertDefaultCategoriesForUser(user: AppUser) {
         val categories = mutableListOf<TransactionCategory>()
 

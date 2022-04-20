@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 enum class TransactionType(val value: String) {
-    INCOME("Income"),
-    EXPENSE("Expense")
+    INCOME("INCOME"),
+    EXPENSE("EXPENSE")
 }
 
 @Entity
@@ -22,10 +22,10 @@ class Transaction(
     )
     var id: Long = 0,
     @Enumerated(EnumType.STRING)
-    var type: TransactionType,
-    var amount: Long,
-    var note: String,
-    var date: Long,
+    var type: TransactionType?,
+    var amount: Double = 0.0,
+    var note: String = "",
+    var date: Long = 0L,
 
     @JsonIgnore
     @ManyToOne(
@@ -50,4 +50,7 @@ class Transaction(
 ) {
     val categoryId: Long
         get() = category.id
+
+    val walletId: Long
+        get() = wallet.id
 }

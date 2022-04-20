@@ -5,6 +5,8 @@ val MSG_USER_NOT_EXIST = "User not exist"
 val MSG_INCORRECT_AUTH_INFO = "Incorrect Username / password"
 val MSG_USER_DOES_NOT_OWN_THIS_WALLET = "User doesn't own this wallet"
 val MSG_INVALID_TOKEN = "Invalid token"
+val MSG_CATEGORY_INVALID = "Invalid category"
+val MSG_INVALID_TRANSACTION_TYPE = "Invalid transaction type"
 
 class Constants {
     companion object{
@@ -77,8 +79,8 @@ class CategoryTitle{
         val AWARD = "Award"
         val INTEREST_MONEY = "Interest Money"
         val SALARY = "Salary"
-        val GIFTS = "GIFTS"
-        val SELLING = "SELLING"
-        val PARENT = "PARENT"
+        val GIFTS = "Gift"
+        val SELLING = "Selling"
+        val PARENT = "Parent"
     }
 }
