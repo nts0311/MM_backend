@@ -38,4 +38,14 @@ class TransactionService @Autowired constructor(
         )
         else transactionRepo.findTransactionByDateBetweenOrderByDateDesc(startDate, endDate, page)
     }
+
+    fun isTransactionExisted(transactionId: Long) = transactionRepo.existsById(transactionId)
+
+    fun updateTransaction(transaction: Transaction) {
+        transactionRepo.saveAndFlush(transaction)
+    }
+
+    fun deleteTransaction(transactionId: Long) {
+        transactionRepo.deleteById(transactionId)
+    }
 }

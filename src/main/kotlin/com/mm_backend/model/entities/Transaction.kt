@@ -1,6 +1,8 @@
 package com.mm_backend.model.entities
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.*
 
 enum class TransactionType(val value: String) {
@@ -39,13 +41,13 @@ class Transaction(
 
     @JsonIgnore
     @ManyToOne(
-        fetch = FetchType.LAZY,
-        cascade = [CascadeType.REMOVE]
+        fetch = FetchType.LAZY
     )
     @JoinColumn(
         name = "wallet_id",
         referencedColumnName = "id"
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     var wallet: Wallet = Wallet()
 ) {
     val categoryId: Long

@@ -7,6 +7,7 @@ val MSG_USER_DOES_NOT_OWN_THIS_WALLET = "User doesn't own this wallet"
 val MSG_INVALID_TOKEN = "Invalid token"
 val MSG_CATEGORY_INVALID = "Invalid category"
 val MSG_INVALID_TRANSACTION_TYPE = "Invalid transaction type"
+val MSG_INVALID_TRANSACTION = "Invalid transaction"
 
 class Constants {
     companion object{
