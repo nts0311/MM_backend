@@ -58,7 +58,7 @@ class TransactionController: BaseController() {
 
         return ok(mutableMapOf<Any, Any>(
             "page" to body.page,
-            "size" to body.size,
+            "size" to transactions.size,
             "data" to transactions
         ))
     }

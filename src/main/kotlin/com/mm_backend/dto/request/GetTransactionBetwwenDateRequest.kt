@@ -1,5 +1,4 @@
 package com.mm_backend.dto.request
-
 data class GetTransactionBetweenDateRequest(
     var walletId: Long? = null,
     var startDate: Long = 0L,

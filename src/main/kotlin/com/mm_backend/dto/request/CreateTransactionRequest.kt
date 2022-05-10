@@ -1,7 +1,5 @@
 package com.mm_backend.dto.request
 
-import com.mm_backend.model.entities.TransactionType
-
 data class CreateTransactionRequest(
     var categoryId: Long,
     var walletId: Long,

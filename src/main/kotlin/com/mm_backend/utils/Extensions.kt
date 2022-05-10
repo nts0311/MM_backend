@@ -12,8 +12,7 @@ fun badRequest(msg: String = "")
 fun unauthorized()
         = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(BaseResponse(code = -1, msg = MSG_INCORRECT_AUTH_INFO))
 
-fun ok(msg: String = "success")
-    = ResponseEntity.ok().body(BaseResponse(code = 0, msg = msg))
+fun ok() = ResponseEntity.ok().body(BaseResponse(code = 0, msg = "success"))
 
 fun ok(body: Any)
-        = ResponseEntity.ok().body(body)
+        = ResponseEntity.ok().body(BaseResponse(code = 0, msg = "success", data = body))
