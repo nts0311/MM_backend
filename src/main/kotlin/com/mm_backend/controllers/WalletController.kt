@@ -71,4 +71,15 @@ class WalletController: BaseController() {
 
         return ok(walletService.getWalletListOfUser(userId))
     }
+
+    @GetMapping("get-by-id")
+    fun getWalletById(@RequestParam walletId: Long): ResponseEntity<*> {
+        if (!userService.isUserExist(userId))
+            return badRequest(MSG_USER_NOT_EXIST)
+
+        if(!userOwnWallet(walletId))
+            return badRequest(MSG_USER_DOES_NOT_OWN_THIS_WALLET)
+
+        return ok(walletService.getWalletById(walletId)!!)
+    }
 }

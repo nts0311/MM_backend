@@ -28,7 +28,7 @@ class TransactionService @Autowired constructor(
         walletRepo.save(wallet)
     }
 
-    fun getTransactionsBetweenDate(walletId: Long?, startDate: Long, endDate: Long, page: Int, size: Int): List<Transaction> {
+    fun getTransactionsBetweenDateOfWallet(walletId: Long?, startDate: Long, endDate: Long, page: Int, size: Int): List<Transaction> {
         val page = PageRequest.of(page, size)
         return if (walletId != null) transactionRepo.findTransactionsByWallet_IdAndDateBetweenOrderByDateDesc(
             walletId,
@@ -38,6 +38,12 @@ class TransactionService @Autowired constructor(
         )
         else transactionRepo.findTransactionByDateBetweenOrderByDateDesc(startDate, endDate, page)
     }
+
+    fun getTransactionBetweenDate(startDate: Long, endDate: Long) : List<Transaction> {
+        return transactionRepo.findTransactionByDateBetweenOrderByDateDesc(startDate, endDate, PageRequest.of(0, 10000))
+    }
+
+    fun getTransactionById(id: Long) = transactionRepo.getById(id)
 
     fun isTransactionExisted(transactionId: Long) = transactionRepo.existsById(transactionId)
 

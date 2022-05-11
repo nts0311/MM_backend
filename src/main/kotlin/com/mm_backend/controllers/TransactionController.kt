@@ -12,10 +12,7 @@ import com.mm_backend.model.entities.Wallet
 import com.mm_backend.utils.badRequest
 import com.mm_backend.utils.ok
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("transaction")
@@ -45,19 +42,41 @@ class TransactionController: BaseController() {
         return ok()
     }
 
-    @PostMapping("get-between-date")
-    fun getTransactionsBetweenDate(@RequestBody body:GetTransactionBetweenDateRequest): ResponseEntity<*> {
+    @PostMapping("get-between-date-of-wallet")
+    fun getTransactionsBetweenDateOfWallet(@RequestBody body:GetTransactionBetweenDateRequest): ResponseEntity<*> {
         if (!userService.isUserExist(userId))
             return badRequest(MSG_USER_NOT_EXIST)
 
         if(body.walletId != null && !userOwnWallet(body.walletId!!))
             return badRequest(MSG_USER_DOES_NOT_OWN_THIS_WALLET)
 
-        val transactions = transactionService.getTransactionsBetweenDate(body.walletId, body.startDate, body
+        val transactions = transactionService.getTransactionsBetweenDateOfWallet(body.walletId, body.startDate, body
             .endDate, body.page, body.size)
 
         return ok(mutableMapOf<Any, Any>(
             "page" to body.page,
+            "size" to transactions.size,
+            "data" to transactions
+        ))
+    }
+
+    @GetMapping("get-by-id")
+    fun getTransactionsById(@RequestParam transactionId: Long): ResponseEntity<*> {
+        if (!userService.isUserExist(userId))
+            return badRequest(MSG_USER_NOT_EXIST)
+
+        return ok(transactionService.getTransactionById(transactionId))
+    }
+
+    @GetMapping("get-between-date")
+    fun getTransactionsBetweenDate(@RequestParam start: Long, @RequestParam end: Long): ResponseEntity<*> {
+        if (!userService.isUserExist(userId))
+            return badRequest(MSG_USER_NOT_EXIST)
+
+        val transactions = transactionService.getTransactionBetweenDate(start, end)
+
+        return ok(mutableMapOf<Any, Any>(
+            "page" to 0,
             "size" to transactions.size,
             "data" to transactions
         ))
