@@ -31,7 +31,7 @@ class AuthController @Autowired constructor(
             authenticationManager.authenticate(authToken)
             val user = userService.getUserByUsername(authRequest.username)
             val jwtToken = jwtUtils.generateToken(user!!)
-            ok(jwtToken)
+            ok(AuthenticationResponse(jwtToken, user.id))
         }
         catch (e: BadCredentialsException){
             unauthorized()

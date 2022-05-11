@@ -53,4 +53,6 @@ class TransactionCategory(
 ) {
     val parentId: Long
         get() = parentCategory?.id ?: id
+
+    //var imageId: Long = 1
 }

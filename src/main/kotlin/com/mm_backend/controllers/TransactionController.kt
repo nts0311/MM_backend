@@ -65,7 +65,9 @@ class TransactionController: BaseController() {
         if (!userService.isUserExist(userId))
             return badRequest(MSG_USER_NOT_EXIST)
 
-        return ok(transactionService.getTransactionById(transactionId))
+        val transaction = transactionService.getTransactionById(transactionId)
+
+        return ok(transaction)
     }
 
     @GetMapping("get-between-date")

@@ -1,6 +1,7 @@
 package com.mm_backend.model.entities
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.*
@@ -11,6 +12,7 @@ enum class TransactionType(val value: String) {
 }
 
 @Entity
+@JsonIgnoreProperties("hibernateLazyInitializer", "handler")
 class Transaction(
     @Id
     @SequenceGenerator(
