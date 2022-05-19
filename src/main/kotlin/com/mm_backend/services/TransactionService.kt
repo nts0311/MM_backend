@@ -51,7 +51,18 @@ class TransactionService @Autowired constructor(
         transactionRepo.saveAndFlush(transaction)
     }
 
-    fun deleteTransaction(transactionId: Long) {
-        transactionRepo.deleteById(transactionId)
+    @Transactional
+    fun deleteTransaction(transaction: Transaction) {
+        transactionRepo.deleteById(transaction.id)
+
+        val wallet = walletRepo.getById(transaction.wallet.id)
+
+        if (transaction.type == TransactionType.EXPENSE) {
+            wallet.amount += transaction.amount
+        } else {
+            wallet.amount -= transaction.amount
+        }
+
+        walletRepo.save(wallet)
     }
 }

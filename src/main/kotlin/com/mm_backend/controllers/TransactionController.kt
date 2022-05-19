@@ -120,7 +120,14 @@ class TransactionController: BaseController() {
         if(!transactionService.isTransactionExisted(body.transactionId))
             return badRequest(MSG_INVALID_TRANSACTION)
 
-        transactionService.deleteTransaction(body.transactionId)
+        val transaction = Transaction(
+            id = body.transactionId,
+            wallet = Wallet(id = body.walletId),
+            amount = body.amount,
+            type = null
+        )
+
+        transactionService.deleteTransaction(transaction)
 
         return ok()
     }
