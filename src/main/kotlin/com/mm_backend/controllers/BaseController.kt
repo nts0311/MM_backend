@@ -1,9 +1,6 @@
 package com.mm_backend.controllers
 
-import com.mm_backend.services.TransactionCategoryService
-import com.mm_backend.services.TransactionService
-import com.mm_backend.services.UserService
-import com.mm_backend.services.WalletService
+import com.mm_backend.services.*
 import org.modelmapper.ModelMapper
 import org.modelmapper.convention.MatchingStrategies
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,6 +16,8 @@ open class BaseController {
     lateinit var walletService: WalletService
     @Autowired
     lateinit var categoryService: TransactionCategoryService
+    @Autowired
+    lateinit var fcmService: FcmService
 
     val modelMapper = ModelMapper().apply {
         configuration.matchingStrategy = MatchingStrategies.STRICT

@@ -4,6 +4,7 @@ import com.mm_backend.constants.MSG_INCORRECT_AUTH_INFO
 import com.mm_backend.constants.MSG_USER_EXIST
 import com.mm_backend.dto.request.AuthRequest
 import com.mm_backend.dto.request.RegisterRequest
+import com.mm_backend.dto.request.UpdateFcmTokenRequest
 import com.mm_backend.dto.response.AuthenticationResponse
 import com.mm_backend.model.entities.AppUser
 import com.mm_backend.services.UserService
@@ -48,6 +49,19 @@ class AuthController @Autowired constructor(
         userService.flush()
         categoryService.insertDefaultCategoriesForUser(newUser)
 
+        return ok()
+    }
+
+    @PostMapping("update-fcm-token")
+    fun updateFcmToken(@RequestBody body: UpdateFcmTokenRequest): ResponseEntity<*> {
+        userService.updateFcmToken(userId, body.fcmToken)
+        return ok()
+    }
+
+    @PostMapping("test-notification")
+    fun testNotification(): ResponseEntity<*> {
+        val id = userService.getFcmToken(userId)
+        fcmService.sendNotification(id)
         return ok()
     }
 }

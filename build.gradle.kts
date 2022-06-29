@@ -36,7 +36,8 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     implementation("com.auth0:java-jwt:3.19.0")
     implementation("org.modelmapper:modelmapper:3.0.0")
-    runtimeOnly("com.google.firebase:firebase-admin:8.1.0")
+    implementation("com.google.firebase:firebase-admin:8.2.0")
+
 }
 
 tasks.withType<KotlinCompile> {

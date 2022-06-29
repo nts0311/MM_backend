@@ -33,10 +33,22 @@ class UserService: UserDetailsService {
         userRepo.save(user)
     }
 
+    fun getAllUser(): List<AppUser> = userRepo.findAll()
+
+    fun getFcmToken(userId: Long): String {
+        return userRepo.getById(userId).fcmToken
+    }
+
     fun isUserExist(username: String): Boolean = getUserByUsername(username) != null
     fun isUserExist(userId: Long): Boolean = !userRepo.findById(userId).isEmpty
 
     fun flush() {
         userRepo.flush()
+    }
+
+    fun updateFcmToken(userId: Long, fcmToken: String) {
+        val user = userRepo.getById(userId)
+        user.fcmToken = fcmToken
+        userRepo.save(user)
     }
 }
