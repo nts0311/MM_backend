@@ -30,11 +30,13 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    runtimeOnly("org.postgresql:postgresql")
+    //runtimeOnly("org.postgresql:postgresql")
+    implementation("mysql:mysql-connector-java:8.0.29")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     implementation("com.auth0:java-jwt:3.19.0")
     implementation("org.modelmapper:modelmapper:3.0.0")
+    runtimeOnly("com.google.firebase:firebase-admin:8.1.0")
 }
 
 tasks.withType<KotlinCompile> {
